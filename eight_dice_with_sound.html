@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <title>8 Kockica</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 20px;
+      background-color: #f0f0f0;
+    }
+    .row {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .row.top {
+      background-color: #00bcd4;
+    }
+    .row.bottom {
+      background-color: #e91e63;
+    }
+    .dice {
+      width: 80px;
+      height: 80px;
+      margin: 10px;
+      background-color: white;
+      border-radius: 10px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: roll 0.5s ease;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      background-color: black;
+      border-radius: 50%;
+      position: absolute;
+    }
+    .dot.center {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .dot.left {
+      top: 50%;
+      left: 25%;
+      transform: translate(-50%, -50%);
+    }
+    .dot.right {
+      top: 50%;
+      left: 75%;
+      transform: translate(-50%, -50%);
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    @keyframes roll {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(180deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Baci 8 Kockica</h1>
+  <div class="row top" id="top-row"></div>
+  <div class="row bottom" id="bottom-row"></div>
+  <button onclick="rollDice()">Baci</button>
+
+  <script>
+    function createDice(value) {
+      const dice = document.createElement('div');
+      dice.className = 'dice';
+      if (value === 1) {
+        const dot = document.createElement('div');
+        dot.className = 'dot center';
+        dice.appendChild(dot);
+      } else if (value === 2) {
+        const dot1 = document.createElement('div');
+        dot1.className = 'dot left';
+        const dot2 = document.createElement('div');
+        dot2.className = 'dot right';
+        dice.appendChild(dot1);
+        dice.appendChild(dot2);
+      }
+      return dice;
+    }
+
+    function rollDice() {
+      const topRow = document.getElementById('top-row');
+      const bottomRow = document.getElementById('bottom-row');
+      topRow.innerHTML = '';
+      bottomRow.innerHTML = '';
+      for (let i = 0; i < 4; i++) {
+        const value = Math.floor(Math.random() * 3); // 0, 1, or 2
+        topRow.appendChild(createDice(value));
+      }
+      for (let i = 0; i < 4; i++) {
+        const value = Math.floor(Math.random() * 3);
+        bottomRow.appendChild(createDice(value));
+      }
+    }
+
+    rollDice(); // Initial roll
+  </script>
+
+<audio id="diceSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b3b9b9f3e.mp3?filename=dice-rolling-1-102706.mp3" preload="auto"></audio>
+<script>
+  function playDiceSound() {
+    const sound = document.getElementById("diceSound");
+    sound.currentTime = 0;
+    sound.play();
+  }
+
+  const rollButton = document.querySelector("button");
+  if (rollButton) {
+    rollButton.addEventListener("click", playDiceSound);
+  }
+</script>
+
+</body>
+</html>
